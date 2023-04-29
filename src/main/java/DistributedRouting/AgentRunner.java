@@ -63,6 +63,10 @@ public class AgentRunner implements Runnable {
                                 .setNextVertex(core.getCurrentVertex())
                                 .setModifier(Float.valueOf(core.getModifier())).build());
 
+                if (currMessages != 0 && currMessages % 100 == 0) {
+                    graphStub.saveGraph(SaveGraphRequest.newBuilder().setIteration(currMessages).build());
+                }
+
                 if (currMessages++ == messageLimit) break;
             }
         } catch (Exception ex) {

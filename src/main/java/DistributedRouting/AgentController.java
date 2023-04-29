@@ -10,6 +10,7 @@ import io.grpc.InsecureServerCredentials;
 import io.grpc.Server;
 import io.grpc.stub.StreamObserver;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.stream.file.FileSinkImages;
 import org.graphstream.ui.spriteManager.Sprite;
 import org.graphstream.ui.spriteManager.SpriteManager;
 
@@ -244,6 +246,21 @@ public class AgentController {
                 lock.unlock();
                 mapLock.unlock();
             }
+            responseObserver.onNext(StatusReply.newBuilder().setSuccess(true).build());
+            responseObserver.onCompleted();
+        }
+
+        @Override
+        public void saveGraph(SaveGraphRequest req, StreamObserver<StatusReply> responseObserver) {
+            /*FileSinkImages pic = new FileSinkImages(FileSinkImages.OutputType.png, FileSinkImages.Resolutions.HD720);
+            pic.setLayoutPolicy(FileSinkImages.LayoutPolicy.COMPUTED_FULLY_AT_NEW_IMAGE);
+            pic.setQuality(FileSinkImages.Quality.HIGH);
+            try {
+                pic.writeAll(graphVis, String.format("graph_frame_%d.png", req.getIteration()));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }*/
+            graphVis.setAttribute("ui.screenshot", String.format("good_graph_frame_%d.png", req.getIteration()));
             responseObserver.onNext(StatusReply.newBuilder().setSuccess(true).build());
             responseObserver.onCompleted();
         }
