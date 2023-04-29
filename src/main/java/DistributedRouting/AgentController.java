@@ -73,9 +73,13 @@ public class AgentController {
         Graph graph = new SingleGraph("Graph");
         graph.setAttribute("ui.stylesheet", """
                 edge {
-                    size: 2px;
+                    size: 4px;
                     fill-mode: dyn-plain;
                     fill-color: red, green;
+                }
+                
+                node {
+                    size: 20px;
                 }
                 
                 node.terminal {
@@ -145,10 +149,12 @@ public class AgentController {
         for (int i = 0; i < numAnts; i++) {
             // Start off the ants on vertex 1
             int startingVertex = 1;
+            int destination = numVertices;
             if (i > numAnts/2) {
                 startingVertex = numVertices;
+                destination = 1;
             }
-            Thread agent = new Thread(new AgentRunner(i, startingVertex, numVertices, countdown));
+            Thread agent = new Thread(new AgentRunner(i, startingVertex, destination, countdown));
             agent.start();
 
             // Give each ant a different color.
