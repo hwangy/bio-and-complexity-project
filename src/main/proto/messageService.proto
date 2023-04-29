@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "DistributedRouting.grpc";
+option java_outer_classname = "DistributedRoutingProto";
+
+package grpc;
+
+service Log {
+  rpc SendLog (MessageLog) returns (StatusReply) {}
+  rpc GetNeighbors (NeighborsRequest) returns (NeighborsReply) {}
+}
+
+message Edge {
+  int32 node_id = 1;
+  float pheromone_level = 2;
+}
+
+message NeighborsReply {
+  repeated Edge edges = 1;
+}
+
+message NeighborsRequest {
+  int32 node_id = 1;
+  int32 prev_node = 2;
+}
+
+message MessageLog {
+  int32 ant_id = 1;
+  int32 prev_vertex = 2;
+  int32 next_vertex = 3;
+  float modifier = 4;
+}
+
+message MessageRequest {
+  int32 node_id = 1;
+}
+
+message MessageReply {
+  bool success = 1;
+}
+
+message StatusReply {
+  bool success = 1;
+}
